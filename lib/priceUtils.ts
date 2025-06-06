@@ -36,113 +36,99 @@ export interface PriceMetrics {
   originalQuantity: string;
 }
 
-export function extractQuantityInfo(quantityStr: string): { 
-  value: number;
-  unit: string;
-  isMultiPack: boolean;
-  totalQuantity: number;
-} {
-  if (!quantityStr) {
-    return { value: 1, unit: 'units', isMultiPack: false, totalQuantity: 1 };
+export function extractQuantityInfo(quantity: string) {
+  if (!quantity) {
+    return {
+      value: 0,
+      unit: '',
+      isMultiPack: false,
+      totalQuantity: 0
+    };
   }
 
-  // Normalize the quantity string
-  const normalized = quantityStr.toLowerCase().replace(',', '.');
+  // Handle multi-pack format (e.g., "6 x 500g")
+  const multiPackMatch = quantity.match(/(\d+)\s*x\s*(\d+(?:\.\d+)?)\s*([a-zA-Z]+)/i);
+  if (multiPackMatch) {
+    const units = multiPackMatch[1] ? parseInt(multiPackMatch[1], 10) : 1;
+    const value = multiPackMatch[2] ? parseFloat(multiPackMatch[2]) : 0;
+    const unit = multiPackMatch[3] ? multiPackMatch[3].toLowerCase() : '';
+    
+    return {
+      value,
+      unit,
+      isMultiPack: true,
+      totalQuantity: units * value
+    };
+  }
 
-  for (const pattern of QUANTITY_PATTERNS) {
-    const match = normalized.match(pattern);
-    if (match) {
-      // Handle multipack patterns
-      if (pattern.source.includes('pack of')) {
-        return {
-          value: parseFloat(match[1]),
-          unit: 'units',
-          isMultiPack: true,
-          totalQuantity: parseFloat(match[1])
-        };
-      }
-      
-      // Handle "6x500ml" pattern
-      if (pattern.source.includes('x')) {
-        const units = parseFloat(match[1]);
-        const quantity = parseFloat(match[2]);
-        const unit = match[4].toLowerCase();
-        return {
-          value: quantity,
-          unit,
-          isMultiPack: true,
-          totalQuantity: units * quantity
-        };
-      }
+  // Handle single quantity format (e.g., "500g", "1kg", "1L")
+  const singleMatch = quantity.match(/(\d+(?:\.\d+)?)\s*([a-zA-Z]+)/i);
+  if (singleMatch) {
+    const value = singleMatch[1] ? parseFloat(singleMatch[1]) : 0;
+    const unit = singleMatch[2] ? singleMatch[2].toLowerCase() : '';
+    
+    return {
+      value,
+      unit,
+      isMultiPack: false,
+      totalQuantity: value
+    };
+  }
 
-      // Standard single unit pattern
-      return {
-        value: parseFloat(match[1]),
-        unit: match[3].toLowerCase(),
-        isMultiPack: false,
-        totalQuantity: parseFloat(match[1])
-      };
+  // Return default values if no pattern matches
+  return {
+    value: 0,
+    unit: '',
+    isMultiPack: false,
+    totalQuantity: 0
+  };
+}
+
+export function calculatePriceMetrics(price: number, quantity: string) {
+  const quantityInfo = extractQuantityInfo(quantity);
+  
+  // Convert to standard units (kg or L)
+  let standardUnit = '';
+  let pricePerStandardUnit = 0;
+
+  if (quantityInfo.unit) {
+    const unit = quantityInfo.unit.toLowerCase();
+    
+    if (['g', 'gr', 'grams', 'gram'].includes(unit)) {
+      standardUnit = 'kg';
+      pricePerStandardUnit = (price / quantityInfo.totalQuantity) * 1000;
+    } else if (['kg', 'kgs', 'kilos', 'kilogram'].includes(unit)) {
+      standardUnit = 'kg';
+      pricePerStandardUnit = price / quantityInfo.totalQuantity;
+    } else if (['ml', 'milliliter', 'millilitre'].includes(unit)) {
+      standardUnit = 'L';
+      pricePerStandardUnit = (price / quantityInfo.totalQuantity) * 1000;
+    } else if (['l', 'liter', 'litre'].includes(unit)) {
+      standardUnit = 'L';
+      pricePerStandardUnit = price / quantityInfo.totalQuantity;
+    } else {
+      // For units we don't recognize, just use the original unit
+      standardUnit = quantityInfo.unit;
+      pricePerStandardUnit = price / quantityInfo.totalQuantity;
     }
   }
 
-  // Default fallback
-  return { value: 1, unit: 'units', isMultiPack: false, totalQuantity: 1 };
-}
-
-export function calculatePriceMetrics(price: number, quantity: string): PriceMetrics {
-  const { value, unit, isMultiPack, totalQuantity } = extractQuantityInfo(quantity);
-  
-  // Get the conversion factor for the unit
-  const conversionFactor = UNIT_CONVERSIONS[unit] || 1;
-  
-  // Calculate price per unit
-  const pricePerUnit = price / value;
-  
-  // Calculate price per standard unit (per L, per kg, or per piece)
-  const pricePerStandardUnit = price / (totalQuantity * conversionFactor);
-  
-  // Determine the standard unit for display
-  let standardUnit = unit;
-  if (UNIT_CONVERSIONS[unit]) {
-    if (['ml', 'cl', 'l'].includes(unit)) standardUnit = 'L';
-    if (['mg', 'g', 'kg'].includes(unit)) standardUnit = 'kg';
-  }
-
   return {
-    pricePerUnit,
     pricePerStandardUnit,
     standardUnit,
-    isMultiPack,
-    totalQuantity,
-    originalQuantity: quantity
+    ...quantityInfo
   };
 }
 
 export function calculateValueScore(price: number, quantity: string, category: string): number {
-  const metrics = calculatePriceMetrics(price, quantity);
+  const quantityInfo = extractQuantityInfo(quantity);
+  // Base value calculation
+  const valueScore = quantityInfo.totalQuantity / price;
   
-  // Base score is inverse of price per standard unit (lower price = higher score)
-  let score = 100 / metrics.pricePerStandardUnit;
-  
-  // Bonus for bulk purchases (if it's a multipack)
-  if (metrics.isMultiPack) {
-    score *= 1.1; // 10% bonus for bulk purchases
-  }
-  
-  // Normalize score to 0-100 range
-  return Math.min(100, Math.max(0, score));
+  // Category-specific adjustments could be added here
+  return valueScore;
 }
 
-export function formatPrice(price: number, options: { 
-  style?: 'standard' | 'detailed';
-  quantity?: string;
-} = {}): string {
-  if (typeof price !== 'number') return 'Price not available';
-  
-  if (options.style === 'detailed' && options.quantity) {
-    const metrics = calculatePriceMetrics(price, options.quantity);
-    return `€${price.toFixed(2)} (€${metrics.pricePerStandardUnit.toFixed(2)}/${metrics.standardUnit})`;
-  }
-  
-  return `€${price.toFixed(2)}`;
+export function formatPrice(price: number): string {
+  return price.toFixed(2);
 } 
