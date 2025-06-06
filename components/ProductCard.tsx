@@ -11,6 +11,20 @@ import { getPriceHistory, PriceAnalytics } from '@/lib/priceTracking';
 import { calculatePriceMetrics, formatPrice } from '@/lib/priceUtils';
 import type { Product, ProductCardProps } from '@/app/types';
 
+// Store name mapping
+const STORE_NAMES: { [key: string]: string } = {
+  'lidl.es': 'Lidl',
+  'carrefour.es': 'Carrefour',
+  'aldi': 'Aldi',
+  'bonarea': 'BonÀrea',
+  'bonpreu': 'Bonpreu',
+  'condisline': 'Condisline',
+  'mercadona.es': 'Mercadona',
+  'El Corte Inglés': 'El Corte Inglés',
+  'alcampo': 'Alcampo',
+  'dia.es': 'Dia'
+};
+
 const ProductCard: React.FC<ProductCardProps> = ({ 
   product,
   onSelect, 
@@ -56,6 +70,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return colors[group - 1] || 'bg-gray-300';
   };
 
+  const getStoreName = (storeId: string) => {
+    return STORE_NAMES[storeId] || storeId;
+  };
+
   return (
     <Card 
       className={`relative overflow-hidden transition-all duration-200 hover:shadow-lg
@@ -63,14 +81,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
         ${showComparison ? 'cursor-pointer hover:scale-105' : ''}`}
       onClick={() => onSelect && onSelect(product.id)}
     >
+      {showComparison && (
+        <div className="absolute top-2 right-2 z-10">
+          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center
+            ${isSelected ? 'bg-blue-500 border-blue-500 text-white' : 'border-gray-300 bg-white'}`}>
+            {isSelected && '✓'}
+          </div>
+        </div>
+      )}
+
       <CardContent className="p-4">
+        {/* Store Badge */}
+        <div className="mb-3">
+          <span className="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">
+            {getStoreName(product.store_id)}
+          </span>
+        </div>
+
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-gray-800 flex-1">{product.name}</h3>
           {product.nutriscore && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <div className={`${getNutriscoreColor(product.nutriscore)} text-white px-2 py-1 rounded-full text-sm font-bold`}>
+                  <div className={`${getNutriscoreColor(product.nutriscore)} text-white px-2 py-1 rounded-full text-sm font-bold ml-2`}>
                     {product.nutriscore.toUpperCase()}
                   </div>
                 </TooltipTrigger>
@@ -92,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <div className={`${getNovaGroupColor(product.nova_group)} text-white px-2 py-1 rounded-full text-sm`}>
+                  <div className={`${getNovaGroupColor(product.nova_group)} text-white px-2 py-1 rounded-full text-sm ml-2`}>
                     NOVA {product.nova_group}
                   </div>
                 </TooltipTrigger>
@@ -103,6 +137,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
               </Tooltip>
             </TooltipProvider>
           )}
+        </div>
+
+        {/* Category Badge */}
+        <div className="mb-3">
+          <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded">
+            {product.category}
+          </span>
         </div>
 
         {/* Nutrition Facts */}
