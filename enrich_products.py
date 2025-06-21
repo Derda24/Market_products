@@ -16,7 +16,7 @@ load_dotenv()
 
 # 🛠️ Supabase Config
 SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://wlthrwgeirjwqqspdopc.supabase.co')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY', 'your_default_key')  # You should set this in .env
+SUPABASE_KEY = os.getenv('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsdGhyd2dlaXJqd3Fxc3Bkb3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2MDY0NDQsImV4cCI6MjA2MTE4MjQ0NH0.uYza0lrRE4h3P5_WX7Sm-EYG0KT4I1h67blBYkXQ11g')  # You should set this in .env
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # List of free proxy servers - you can add more

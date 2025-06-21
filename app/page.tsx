@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,23 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_KEY!
 );
 
+// Types
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  quantity: string;
+  category: string;
+  store_id: string;
+  last_updated?: string;
+  nutriscore?: 'a' | 'b' | 'c' | 'd' | 'e';
+  nova_group?: 1 | 2 | 3 | 4;
+  energy_kcal?: number;
+  sugars_100g?: number;
+  salt_100g?: number;
+  saturated_fat_100g?: number;
+}
+
 // Enhanced sort options
 type SortOption = 
   | 'price-asc' 
@@ -33,11 +50,13 @@ type SortOption =
   | 'best-value' 
   | 'price-per-unit' 
   | 'bulk-deals'
-  | 'recent-changes';
+  | 'recent-changes'
+  | 'nutriscore'
+  | 'nova-score';
 
 export default function Home() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filtered, setFiltered] = useState<Product[]>([]);
   const [search, setSearch] = useState("");
   const [store, setStore] = useState("");
   const [priceRange, setPriceRange] = useState([0, 100]);
@@ -76,7 +95,7 @@ export default function Home() {
   }, []);
 
   // Enhanced sorting function
-  const sortProducts = (products: any[]) => {
+  const sortProducts = (products: Product[]) => {
     return [...products].sort((a, b) => {
       switch (sortBy) {
         case 'price-asc':
@@ -108,16 +127,25 @@ export default function Home() {
           if (!a.price || !b.price) return !a.price ? 1 : -1;
           const aMetrics2 = calculatePriceMetrics(a.price, a.quantity);
           const bMetrics2 = calculatePriceMetrics(b.price, b.quantity);
-          // Prioritize multipacks with better per-unit prices
           const aBulkScore = (aMetrics2.isMultiPack ? 1 : 0) * (1 / aMetrics2.pricePerStandardUnit);
           const bBulkScore = (bMetrics2.isMultiPack ? 1 : 0) * (1 / bMetrics2.pricePerStandardUnit);
           return bBulkScore - aBulkScore;
           
         case 'recent-changes':
-          // Assuming products have a last_updated field
           const aDate = new Date(a.last_updated || 0);
           const bDate = new Date(b.last_updated || 0);
           return bDate.getTime() - aDate.getTime();
+
+        case 'nutriscore':
+          const nutriScores = { 'a': 5, 'b': 4, 'c': 3, 'd': 2, 'e': 1 };
+          const aNutriScore = nutriScores[a.nutriscore?.toLowerCase()] || 0;
+          const bNutriScore = nutriScores[b.nutriscore?.toLowerCase()] || 0;
+          return bNutriScore - aNutriScore;
+
+        case 'nova-score':
+          const aNova = a.nova_group || 5;
+          const bNova = b.nova_group || 5;
+          return aNova - bNova;  // Lower NOVA scores are better
           
         default:
           return 0;
@@ -198,18 +226,20 @@ export default function Home() {
               </SelectContent>
             </Select>
 
-            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
+            <Select onValueChange={(val) => setSortBy(val as SortOption)}>
               <SelectTrigger className="shadow-md border-gray-300">
                 <SelectValue placeholder="🔄 Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="price-asc">💰 Cheapest First</SelectItem>
-                <SelectItem value="price-desc">💎 Most Expensive First</SelectItem>
-                <SelectItem value="name">📝 Name (A-Z)</SelectItem>
-                <SelectItem value="best-value">⭐ Best Value</SelectItem>
-                <SelectItem value="price-per-unit">📊 Price per Unit</SelectItem>
-                <SelectItem value="bulk-deals">📦 Bulk Deals</SelectItem>
-                <SelectItem value="recent-changes">🔄 Recent Price Changes</SelectItem>
+                <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                <SelectItem value="name">Name</SelectItem>
+                <SelectItem value="best-value">Best Value</SelectItem>
+                <SelectItem value="price-per-unit">Price per Unit</SelectItem>
+                <SelectItem value="bulk-deals">Bulk Deals</SelectItem>
+                <SelectItem value="recent-changes">Recently Updated</SelectItem>
+                <SelectItem value="nutriscore">Best Nutrition (Nutri-Score)</SelectItem>
+                <SelectItem value="nova-score">Least Processed (NOVA)</SelectItem>
               </SelectContent>
             </Select>
 
