@@ -56,9 +56,9 @@ def scrape_aldi():
                     insert_product(
                         name=name,
                         price=price,
-                        category="general",
+                        category="products",
                         store_id="aldi",
-                        quantity="1 unit"
+                        quantity=quantity,
                     )
                     log_debug_message(f"✅ Inserted: {name} — {price}€")
                 except Exception as e:

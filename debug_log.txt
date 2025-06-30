@@ -1,0 +1,68 @@
+[2025-06-24 14:54:02] ✅ Aldi homepage loaded.
+[2025-06-24 14:54:04] 🍪 Cookie popup accepted.
+[2025-06-24 14:54:06] 🔄 Scroll 1/15 complete
+[2025-06-24 14:54:08] 🔍 Found 12 products on page.
+[2025-06-24 14:54:08] Attempting to insert product: {'name': 'Tomate en rama', 'price': 1.19, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:09] Supabase Response: data=[{'name': 'Tomate en rama', 'price': 1.19, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '0578a0b0-a58d-4e2f-84a1-b3c43a299492', 'created_at': '2025-06-24T11:54:09.669608', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:09] ✅ Successfully inserted: Tomate en rama
+[2025-06-24 14:54:09] ✅ Inserted: Tomate en rama — 1.19€
+[2025-06-24 14:54:09] Attempting to insert product: {'name': 'Melocotón rojo', 'price': 1.79, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:10] Supabase Response: data=[{'name': 'Melocotón rojo', 'price': 1.79, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '6c3e5231-af37-4e2b-ba52-f51a089df7cc', 'created_at': '2025-06-24T11:54:10.119074', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:10] ✅ Successfully inserted: Melocotón rojo
+[2025-06-24 14:54:10] ✅ Inserted: Melocotón rojo — 1.79€
+[2025-06-24 14:54:10] Attempting to insert product: {'name': 'Cerezas', 'price': 2.49, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:10] Supabase Response: data=[{'name': 'Cerezas', 'price': 2.49, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '374bf611-fe06-4eaf-bc52-0c530bfc29c5', 'created_at': '2025-06-24T11:54:10.640904', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:10] ✅ Successfully inserted: Cerezas
+[2025-06-24 14:54:10] ✅ Inserted: Cerezas — 2.49€
+[2025-06-24 14:54:10] Attempting to insert product: {'name': 'Escalopín de vacuno', 'price': 5.49, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:11] Supabase Response: data=[{'name': 'Escalopín de vacuno', 'price': 5.49, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': 'd7e32e71-1e0b-4f65-8b48-a001fe05b6a1', 'created_at': '2025-06-24T11:54:11.147018', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:11] ✅ Successfully inserted: Escalopín de vacuno
+[2025-06-24 14:54:11] ✅ Inserted: Escalopín de vacuno — 5.49€
+[2025-06-24 14:54:11] Attempting to insert product: {'name': 'Camiseta protección solar', 'price': 6.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:11] Supabase Response: data=[{'name': 'Camiseta protección solar', 'price': 6.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': 'f0cee9f4-27ae-477f-9bdc-c772bbb96651', 'created_at': '2025-06-24T11:54:11.526226', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:11] ✅ Successfully inserted: Camiseta protección solar
+[2025-06-24 14:54:11] ✅ Inserted: Camiseta protección solar — 6.99€
+[2025-06-24 14:54:11] Attempting to insert product: {'name': 'Escarpines', 'price': 3.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:11] Supabase Response: data=[{'name': 'Escarpines', 'price': 3.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '1c7a0696-09a4-48f4-a013-8579d69250d5', 'created_at': '2025-06-24T11:54:11.892628', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:11] ✅ Successfully inserted: Escarpines
+[2025-06-24 14:54:11] ✅ Inserted: Escarpines — 3.99€
+[2025-06-24 14:54:11] Attempting to insert product: {'name': 'Set de esnórquel', 'price': 9.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:12] Supabase Response: data=[{'name': 'Set de esnórquel', 'price': 9.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '193f53ad-3720-49de-9b44-39ee714ec83c', 'created_at': '2025-06-24T11:54:12.42475', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:12] ✅ Successfully inserted: Set de esnórquel
+[2025-06-24 14:54:12] ✅ Inserted: Set de esnórquel — 9.99€
+[2025-06-24 14:54:12] Attempting to insert product: {'name': 'Sombrero / Gorra', 'price': 2.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:12] Supabase Response: data=[{'name': 'Sombrero / Gorra', 'price': 2.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '7ad72550-8b64-4408-b2c2-70762d656b39', 'created_at': '2025-06-24T11:54:12.920604', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:12] ✅ Successfully inserted: Sombrero / Gorra
+[2025-06-24 14:54:12] ✅ Inserted: Sombrero / Gorra — 2.99€
+[2025-06-24 14:54:13] Attempting to insert product: {'name': 'Barrita cacahuete', 'price': 2.89, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:13] Supabase Response: data=[{'name': 'Barrita cacahuete', 'price': 2.89, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': 'a91dbb8c-b113-46e1-8a2a-af6d684bc043', 'created_at': '2025-06-24T11:54:13.281073', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:13] ✅ Successfully inserted: Barrita cacahuete
+[2025-06-24 14:54:13] ✅ Inserted: Barrita cacahuete — 2.89€
+[2025-06-24 14:54:13] Attempting to insert product: {'name': 'Tarrina speculoos', 'price': 3.15, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:13] Supabase Response: data=[{'name': 'Tarrina speculoos', 'price': 3.15, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '50750df5-1755-474f-8f25-17c750ad95fc', 'created_at': '2025-06-24T11:54:13.912858', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:13] ✅ Successfully inserted: Tarrina speculoos
+[2025-06-24 14:54:13] ✅ Inserted: Tarrina speculoos — 3.15€
+[2025-06-24 14:54:13] Attempting to insert product: {'name': 'Bombon premium fresa', 'price': 2.19, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:14] Supabase Response: data=[{'name': 'Bombon premium fresa', 'price': 2.19, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '2a9fc0db-873a-4907-b3e0-7fb8eb2f6f71', 'created_at': '2025-06-24T11:54:14.17639', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:14] ✅ Successfully inserted: Bombon premium fresa
+[2025-06-24 14:54:14] ✅ Inserted: Bombon premium fresa — 2.19€
+[2025-06-24 14:54:14] Attempting to insert product: {'name': 'Tarrina helado de pistacho', 'price': 3.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit'}
+[2025-06-24 14:54:14] Supabase Response: data=[{'name': 'Tarrina helado de pistacho', 'price': 3.99, 'category': 'general', 'store_id': 'aldi', 'quantity': '1 unit', 'id': '7a6f95e3-e3b9-4ce6-96e0-f191df6740e3', 'created_at': '2025-06-24T11:54:14.761085', 'image_url': None, 'nutriscore': None, 'nova_group': None, 'energy_kcal': None, 'sugars_100g': None, 'salt_100g': None, 'saturated_fat_100g': None}] count=None
+[2025-06-24 14:54:14] ✅ Successfully inserted: Tarrina helado de pistacho
+[2025-06-24 14:54:14] ✅ Inserted: Tarrina helado de pistacho — 3.99€
+[2025-06-24 14:57:52] ✅ Aldi homepage loaded.
+[2025-06-24 14:57:53] 🍪 Cookie popup accepted.
+[2025-06-24 14:57:55] 🔄 Scroll 1/15 complete
+[2025-06-24 14:57:57] 🔍 Found 12 products on page.
+[2025-06-24 14:57:57] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:57] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:57] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined
+[2025-06-24 14:57:58] ⚠️ Error: name 'quantity' is not defined

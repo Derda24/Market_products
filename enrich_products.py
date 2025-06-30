@@ -10,6 +10,7 @@ import os
 from datetime import datetime
 import random
 from dotenv import load_dotenv
+from urllib.parse import urlencode
 
 # Load environment variables
 load_dotenv()
@@ -17,6 +18,7 @@ load_dotenv()
 # 🛠️ Supabase Config
 SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://wlthrwgeirjwqqspdopc.supabase.co')
 SUPABASE_KEY = os.getenv('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsdGhyd2dlaXJqd3Fxc3Bkb3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU2MDY0NDQsImV4cCI6MjA2MTE4MjQ0NH0.uYza0lrRE4h3P5_WX7Sm-EYG0KT4I1h67blBYkXQ11g')  # You should set this in .env
+PROXY_API_KEY = os.getenv('PROXY_API_KEY') # Add your proxy API key to .env
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # List of free proxy servers - you can add more
@@ -99,7 +101,7 @@ def search_openfoodfacts(query):
         "search_simple": 1,
         "action": "process",
         "json": 1,
-        "page_size": 5
+        "page_size": 20
     }
     
     retry_strategy = Retry(
@@ -121,8 +123,17 @@ def search_openfoodfacts(query):
             # Add random delay between 5-10 seconds before each attempt
             delay = random.uniform(5, 10)
             time.sleep(delay)
-            
-            response = session.get(url, params=params, timeout=30)
+
+            # Use proxy if available
+            proxy = get_random_proxy()
+            if proxy and PROXY_API_KEY:
+                target_url = f"{url}?{urlencode(params)}"
+                proxy_url = f"{proxy}?api_key={PROXY_API_KEY}&url={target_url}"
+                print(f"🌐 Using proxy: {proxy.split('/')[2]}")
+                response = session.get(proxy_url, timeout=60)
+            else:
+                response = session.get(url, params=params, timeout=30)
+
             response.raise_for_status()
             data = response.json()
             products = data.get("products", [])
@@ -163,6 +174,9 @@ def best_fuzzy_match(target_name, results):
     
     for product in results:
         name = product.get("product_name", "")
+        if not name:
+            continue
+
         name_clean = clean_product_name(name).lower()
         
         # Try different matching strategies
@@ -177,7 +191,7 @@ def best_fuzzy_match(target_name, results):
             highest_score = score
             best = product
             
-    return best if highest_score > 60 else None  # Lowered threshold slightly
+    return best if highest_score > 70 else None
 
 # 🍽️ Extract nutrition info
 def extract_nutrition(off_product):
